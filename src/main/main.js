@@ -1,18 +1,8 @@
-/* eslint global-require: off, no-console: off, promise/always-return: off */
-
-/**
- * This module executes inside of electron's main process. You can start
- * electron renderer process from here and communicate with the other processes
- * through IPC.
- *
- * When running `npm run build` or `npm run build:main`, this file is compiled to
- * `./src/main.js` using webpack. This gives us some performance wins.
- */
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import path from 'path';
 import fs from 'fs';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, dialog , Menu} from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import Database from 'better-sqlite3';
@@ -28,10 +18,11 @@ export default class AppUpdater {
   }
 }
 
-let mainWindow: BrowserWindow | null = null;
+let mainWindow;
+let printToPDFWindow;
 
 ipcMain.on('ipc-example', async (event, arg) => {
-  const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
+  const msgTemplate = (pingPong) => `IPC test: ${pingPong}`;
   console.log(msgTemplate(arg));
   event.reply('ipc-example', msgTemplate('pong'));
 });
@@ -45,7 +36,7 @@ const isDevelopment =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 
 // Connect to db
-const db = new Database(':memory:', { verbose: console.log });
+const db = new Database('MyDB' , { verbose: console.log } );
 
 // Read run-time assets
 const sql = isDevelopment
@@ -53,6 +44,7 @@ const sql = isDevelopment
   : path.join(__dirname, '../../sql'); // In prod, __dirname is release/app/dist/main. We want release/app/sql
 const create = fs.readFileSync(path.join(sql, 'create.sql')).toString().trim();
 const insert = fs.readFileSync(path.join(sql, 'insert.sql')).toString().trim();
+
 
 // Prepare the query
 db.exec(create);
@@ -67,6 +59,42 @@ insertMany([
   { name: 'Sally', age: 4 },
   { name: 'Junior', age: 1 },
 ]);
+
+//DB testing
+//DELETE
+ let sqlDelete = `DELETE FROM cats WHERE name='Joey'`;
+let StmtDelete = db.prepare(sqlDelete);
+const deleteEntry = db.transaction(()=>{
+  StmtDelete.run();
+
+})
+//deleteEntry();
+
+//Get All
+let sqlgetAll = 'SELECT * FROM cats';
+const data = db.prepare(sqlgetAll).all();
+/* for (let i=0;i<rows.length;i++){
+  console.log(rows[i].name, rows[i].age);
+} */
+//console.log(data)
+
+//Get one
+let sqlGetOne = `SELECT * FROM cats WHERE name='Joey'`;
+const rs = db.prepare(sqlGetOne).all();
+console.log(rs)
+
+//UPDATE
+let sqlUpdate = `UPDATE cats SET age='1' WHERE name='Joey'`;
+let StmtUpdate = db.prepare(sqlUpdate);
+const UpdateEntry = db.transaction(()=>{
+  StmtUpdate.run();
+
+})
+UpdateEntry();
+//DB testing
+
+
+
 
 if (isDevelopment) {
   require('electron-debug')();
@@ -94,10 +122,11 @@ const createWindow = async () => {
     ? path.join(process.resourcesPath, 'assets')
     : path.join(__dirname, '../../assets');
 
-  const getAssetPath = (...paths: string[]): string => {
+  const getAssetPath = (...paths) => {
     return path.join(RESOURCES_PATH, ...paths);
   };
 
+  // @ts-ignore
   mainWindow = new BrowserWindow({
     show: false,
     width: 1024,
@@ -118,8 +147,13 @@ const createWindow = async () => {
       mainWindow.minimize();
     } else {
       mainWindow.show();
+      const ctxMenu = Menu.buildFromTemplate(ctxTemplate);
+      mainWindow.webContents.on('context-menu', (event, params) => {
+        ctxMenu.popup(mainWindow);
+      })
     }
   });
+
 
   mainWindow.on('closed', () => {
     mainWindow = null;
@@ -137,6 +171,8 @@ const createWindow = async () => {
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
   new AppUpdater();
+
+
 };
 
 /**
@@ -162,3 +198,62 @@ app
     });
   })
   .catch(console.log);
+
+ipcMain.on('choose',()=>{
+  dialog.showMessageBox({
+    title: 'are you sure about that',
+    detail: 'hmmm think',
+    message:'ti think again',
+    type:'warning',
+    buttons:['yes','no','cancel']
+  },(response)=>{
+    console.log(response)
+  })
+})
+
+
+ipcMain.on('print-pdf',event =>{
+  printToPDFWindow = BrowserWindow.fromId(BrowserWindow.getFocusedWindow().webContents.id);
+
+  printToPDFWindow.webContents.printToPDF({}, () => {
+
+   }).then((data,error) => {
+    if (error) {
+      console.log(error)
+      return;
+    }
+
+    if (data) {
+      const desktop = app.getPath('desktop');
+      const filePath = `${desktop}/${printToPDFWindow.getTitle()}-captured.pdf`;
+      fs.writeFileSync(filePath, data);
+    }
+  })
+})
+//custom menu
+const ctxTemplate = [
+  {
+    label: 'Copy',
+    accelerator: 'CTRL + C',
+    role: 'copy'
+  },
+  {
+    label: 'Cut',
+    accelerator: 'CTRL + X',
+    role: 'cut'
+  },
+  {
+    label: 'Paste',
+    accelerator: 'CTRL + V',
+    role: 'paste'
+  },
+  {
+    type: 'separator'
+  },
+  {
+    label: 'Select All',
+    accelerator: 'CTRL + A',
+    role: 'selectall'
+  }
+]
+

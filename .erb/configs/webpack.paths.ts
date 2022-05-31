@@ -1,5 +1,6 @@
 import path from 'path';
 
+
 const rootPath = path.join(__dirname, '../..');
 
 const dllPath = path.join(__dirname, '../dll');

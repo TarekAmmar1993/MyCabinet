@@ -1,1 +1,1 @@
-CREATE TABLE cats (name TEXT, age INT)
+CREATE TABLE IF NOT EXISTS cats (name TEXT, age INT)

@@ -19,5 +19,11 @@ contextBridge.exposeInMainWorld('electron', {
         ipcRenderer.once(channel, (event, ...args) => func(...args));
       }
     },
+    myTest() {
+      ipcRenderer.send('choose', 'info');
+    },
+    printPDF(){
+      ipcRenderer.send('print-pdf');
+    }
   },
 });
