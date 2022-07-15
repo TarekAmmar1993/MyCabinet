@@ -8,4 +8,4 @@ npm install
 npm start
 ```
 
-
+![This is an image](src/images/addNewBackground.jpg)
