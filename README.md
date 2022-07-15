@@ -17,4 +17,4 @@ MyCabinet is a desktop application for managing a doctor's cabinet. The main fea
 - print a record
 
 Here is some Screenshots of MyCabinet
-![This is an image](src/images/Login Page.png)
+![This is an image](src/images/Patient.png)
