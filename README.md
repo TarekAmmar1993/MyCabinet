@@ -9,7 +9,8 @@ npm start
 ```
 ## Introduction
 MyCabinet is a desktop application for managing a doctor's cabinet. The main features are :
--Authentication module
+
+- Authentication module
 - CRUD operations for patients
 - filter records by first ame, last name or birth date
 - sort records alphabetically 
