@@ -1,14 +1,29 @@
-import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
-import './App.css';
+import {Switch } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import { NavBar,Loading } from "../components";
+import ProtectedRoute from "../auth/protected-route";
+import "./app.scss";
+import Patient from "../views/Patient";
+import Records from "../views/records";
 
-import Hello from '../components/Hello';
+const App = () => {
+   const { isLoading } = useAuth0();
 
-export default function App() {
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Hello />} />
-      </Routes>
-    </Router>
+    <div id="app" className="d-flex flex-column h-100">
+      <NavBar />
+      <div className="container flex-grow-1">
+        <Switch>
+          <ProtectedRoute path="/" exact component={Patient} />
+          <ProtectedRoute path="/records" component={Records} />
+        </Switch>
+      </div>
+    </div>
   );
-}
+};
+
+export default App;

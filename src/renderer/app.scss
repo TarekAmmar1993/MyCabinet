@@ -1,0 +1,205 @@
+body{
+  font-size: 20px;
+}
+.next-steps .fa-link {
+  margin-right: 5px;
+}
+
+/* Fix for use only flexbox in content area */
+.next-steps .row {
+  margin-bottom: 0;
+}
+
+.next-steps .col-md-5 {
+  margin-bottom: 3rem;
+}
+
+@media (max-width: 768px) {
+  .next-steps .col-md-5 {
+    margin-bottom: 0;
+  }
+}
+
+.spinner {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: white;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.result-block-container .result-block {
+  opacity: 1;
+}
+
+/*for the buttons in records */
+.button {
+  text-align: center;
+  display: inline-block;
+  position: relative;
+  text-decoration: none;
+  margin: 2px;
+  text-transform: capitalize;
+
+  font: {
+    family: 'Roboto', sans-serif;
+    size: 12px;
+  }
+  padding: 5px 0px;
+  width: 80px;
+  overflow: hidden;
+  border-radius: 50px;
+  color: #ede7ef;
+  border: #ede7ef;
+  transition: all 0.2s linear 0s;
+
+  &:before {
+
+    font-size: 15px;
+    position: absolute;
+    font-family: FontAwesome;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    height: 100%;
+    width: 40px;
+    transition: all 0.2s linear 0s;
+
+  }
+
+  &:hover {
+    text-indent: -20px;
+
+    &:before {
+      opacity: 1;
+      text-indent: 0px;
+    }
+  }
+}
+
+/* for the open button*/
+/* more font icons in https://astronautweb.co/snippet/font-awesome/ */
+.button.openBtn{
+  &:before {
+    content: "\f07c";
+  }
+  background: blue;
+
+}
+/* for the update button*/
+.button.updateBtn{
+  &:before {
+    content: "\f044";
+  }
+  background: rgba(4, 169, 109, 0.94);
+}
+/* for the delete button*/
+.button.deleteBtn{
+  &:before {
+    content: "\f014";
+  }
+  background: rgb(211, 24, 24);
+  }
+
+/* Button : add patient */
+
+.add_btn {
+  text-align: center;
+  display: inline-block;
+  padding: 10px 30px;
+  border: 1px solid #fff;
+  cursor: pointer;
+  letter-spacing: 2px;
+  position:relative;
+  overflow:hidden;
+  color: #ede7ef;
+  background: #66bb6a;
+  margin: 5px;
+}
+
+.add_btn:before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 0;
+  background : #fff;
+  left: 0;
+  bottom: 0;
+  transition: all .3s;
+  opacity: 0.3;
+}
+
+.add_btn:hover:before {
+  width: 100%;
+}
+.records_actionBar {
+  background: #66bb6a;
+  margin-bottom: 5px;
+  display: flex;
+}
+/*test*/
+label{
+  font-weight: bold;
+}
+.FormContainer{
+  background-image: url("../images/addNewBackground.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+
+
+}
+#buttonSubmitDiv{
+  display: flex;
+  justify-content: space-around;
+}
+#PatientNavButton{
+  height: 50px;
+  width: 200px;
+  font-size: 20px;
+}
+.searchField{
+  width: 27%;
+  margin:10px;
+}
+.addPatientDiv{
+  display: inline-block;
+  width: 30%;
+}
+.sortFilterDiv{
+  display: inline-block;
+  width: 70%;
+}
+.allButtonsDiv{
+  display: inline-flex;
+  width: 100%;
+  justify-content: flex-end;
+  margin: -5px;
+}
+#sortButton{
+  margin-top: inherit;
+  margin-right: inherit;
+  background: bottom;
+  border: 1px solid white;
+}
+.btn-group{
+  margin: 5px;
+  color: green;
+  width: 10%;
+}
+.dropdown-menu{
+  width: 110px;
+}
+.dropdown-menu li{
+  cursor: pointer;
+}
+.sortIcon{
+  margin-right: 10px;
+}

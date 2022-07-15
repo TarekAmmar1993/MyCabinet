@@ -1,1 +1,1 @@
-INSERT INTO cats (name, age) VALUES (@name, @age)
+INSERT INTO cats (first, last, age) VALUES (@first, @last, @age)

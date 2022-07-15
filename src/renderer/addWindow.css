@@ -1,0 +1,22 @@
+.FormContainer{
+  background-image: url("../images/addNewBackground.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+
+}
+.addNewTitle{
+  text-align: center;
+}
+ #buttonSubmitDiv{
+   display: flex;
+   justify-content: flex-end;
+ }
+ #submitButton{
+   height: 50px;
+   width: 200px;
+   font-size: 20px;
+ }
+label{
+  font-weight: bold;
+}

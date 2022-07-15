@@ -18,6 +18,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const port = process.env.PORT || 1212;
 const manifest = path.resolve(webpackPaths.dllPath, 'renderer.json');
+// @ts-ignore
 const requiredByDLLConfig = module.parent.filename.includes(
   'webpack.config.renderer.dev.dll'
 );
@@ -158,7 +159,7 @@ const configuration: webpack.Configuration = {
       publicPath: '/',
     },
     historyApiFallback: {
-      verbose: true,
+      verbose: true
     },
     onBeforeSetupMiddleware() {
       console.log('Starting Main Process...');

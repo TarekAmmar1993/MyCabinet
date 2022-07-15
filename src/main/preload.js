@@ -2,21 +2,11 @@ const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electron', {
   ipcRenderer: {
-    myPing() {
-      ipcRenderer.send('ipc-example', 'ping');
-    },
     on(channel, func) {
-      const validChannels = ['ipc-example'];
+      const validChannels = ['responseAllRecords','sendRecordToFocus'];
       if (validChannels.includes(channel)) {
         // Deliberately strip event as it includes `sender`
         ipcRenderer.on(channel, (event, ...args) => func(...args));
-      }
-    },
-    once(channel, func) {
-      const validChannels = ['ipc-example'];
-      if (validChannels.includes(channel)) {
-        // Deliberately strip event as it includes `sender`
-        ipcRenderer.once(channel, (event, ...args) => func(...args));
       }
     },
     myTest() {
@@ -24,6 +14,28 @@ contextBridge.exposeInMainWorld('electron', {
     },
     printPDF(){
       ipcRenderer.send('print-pdf');
+    },
+    requestAllRecords(){
+      ipcRenderer.send('requestAllRecords');
+    },
+    deleteRecord(args){
+      ipcRenderer.send('deleteRecord',args);
+    },
+    reload(){
+      ipcRenderer.send('reload');
+    },
+    openAddPatientWindow(){
+      ipcRenderer.send('newPatient');
+    },
+    insertNewPatient(args){
+      ipcRenderer.send('insertNewPatient',args)
+    },
+    openRecord(args){
+      ipcRenderer.send('openRecord',args)
+    },
+    updateRecord(args){
+      ipcRenderer.send('updateRecord',args);
     }
+
   },
 });

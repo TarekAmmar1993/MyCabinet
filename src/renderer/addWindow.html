@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html  >
+<head>
+  <title>Add New Patient</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="addWindow.css">
+</head>
+<body>
+<div class="FormContainer" >
+  <div> <h1 class="addNewTitle">  Add a New Patient</h1>
+    </div>
+  <form class="row g-3" style="margin: 10px" id="AddNewForm">
+
+    <div class="col-md-6">
+      <label  class="form-label">First Name</label>
+      <input type="text" class="form-control" id="firstName" required>
+    </div>
+    <div class="col-md-6">
+      <label  class="form-label">Last Name</label>
+      <input type="text" class="form-control" id="lastName" required>
+    </div>
+    <div class="col-md-6">
+      <label  class="form-label">Birth Date</label>
+      <input type="date" class="form-control" id="birthDate" required>
+    </div>
+    <div class="col-md-6">
+      <label  class="form-label">Phone</label>
+      <input type="tel" class="form-control" id="phone"  required>
+    </div>
+   <hr>
+    <div class="col-12">
+      <label  class="form-label">Medical Record</label>
+      <div>
+        <textarea rows="5" cols="127" id="medicalRecord" form="AddNewForm" required>
+      Enter your medical record here...</textarea>
+      </div>
+
+    </div>
+    <hr>
+    <div class="col-12">
+      <label class="form-label">Clinical Record</label>
+      <div>
+        <textarea rows="5" cols="127" id="clinicalRecord" form="AddNewForm" required>
+      Enter your clinical record here...</textarea>
+      </div>
+    </div>
+
+
+    <div class="col-12" id="buttonSubmitDiv">
+      <button type="submit" class="btn btn-primary" id="submitButton">Add New Patient</button>
+    </div>
+
+  </form>
+</div>
+
+<script>
+  function submitForm(e) {
+    e.preventDefault();
+    const firstName = document.querySelector('#firstName').value;
+    const lastName = document.querySelector('#lastName').value;
+    const birthDate = document.querySelector('#birthDate').value;
+    const phone = document.querySelector('#phone').value;
+    const medicalRecord = document.querySelector('#medicalRecord').value;
+    const clinicalRecord = document.querySelector('#clinicalRecord').value;
+    const uniqueID = firstName[0].toUpperCase() + lastName[0].toUpperCase() + Math.floor(Math.random() * 100)
+    let arr={
+      uniqueID:uniqueID,
+      firstName:firstName,
+      lastName:lastName,
+      birthDate:birthDate,
+      phone:phone,
+      medicalRecord:medicalRecord,
+      clinicalRecord:clinicalRecord
+    };
+    window.electron.ipcRenderer.insertNewPatient(arr)
+  }
+
+  document.querySelector('form').addEventListener('submit', submitForm);
+
+</script>
+
+
+</body>
+</html>
