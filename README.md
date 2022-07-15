@@ -12,9 +12,10 @@ MyCabinet is a desktop application for managing a doctor's cabinet. The main fea
 
 - Authentication module
 - CRUD operations for patients
-- filter records by first ame, last name or birth date
-- sort records alphabetically 
-- print a record
+- Filter records by first ame, last name or birth date
+- Sort records alphabetically 
+- Print a record
 
-Here is some Screenshots of MyCabinet
+Here is some Screenshots of MyCabinet :
+
 ![This is an image](src/images/Patient.png)
